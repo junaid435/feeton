@@ -350,13 +350,13 @@ const loadDashbord = async (req, res,next) => {
 
 let paymentRazor;
 let paymentCod;
-if(paymentRazor1[0].total=== undefined){
+if(paymentRazor1.length>0&&paymentRazor1[0]=== undefined){
    paymentRazor=0
 }else{
    paymentRazor = parseInt(paymentRazor1[0].total)
 }
      
-if(paymentCod1[0].total=== undefined){
+if(paymentCod1.length>0&&paymentCod1[0]=== undefined){
    paymentCod=0
 }else{
   paymentCod = parseInt(paymentCod1[0].total)
