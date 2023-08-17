@@ -1,0 +1,294 @@
+<%- include('../user/layouts/header.ejs') %>
+
+    <style>
+        #truncateLongTexts {
+            width: 15em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis
+        }
+    </style>
+
+    
+<section class="banner-area">
+    <div class="container py-5">
+        <div class="row fullscreen align-items-center justify-content-start">
+            <div class="col-lg-12">
+                <div class="active-banner-slider owl-carousel">
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner">
+                            <% if(bannerData && bannerData.length > 0) {
+                                bannerData.forEach(function(data, index) { %>
+                                <div class="carousel-item <%= index === 0 ? 'active' : '' %>">
+                                    <div class="row align-items-center">
+                                        <div class="col-md-6">
+                                            <div class="banner-content">
+                                                <h1><%= data.title %></h1>
+                                                <p><%= data.description %></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="banner-image">
+                                                <img class="d-block img-fluid"
+                                                src="/admin_assets/Banner/<%= data.image[0] %>"
+                                                alt="<%= data.title %>">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% }) } %>
+                            </div>
+                            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Previous</span>
+                            </a>
+                            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="sr-only">Next</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+    
+
+
+    <!-- End banner Area -->
+
+    <!-- start features Area -->
+    <section class="features-area section_gap">
+        <div class="container">
+            <div class="row features-inner">
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="/user_assets/img/features/f-icon1.png" alt="">
+                        </div>
+                        <h6>Free Delivery</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="/user_assets/img/features/f-icon2.png" alt="">
+                        </div>
+                        <h6>Return Policy</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="/user_assets/img/features/f-icon3.png" alt="">
+                        </div>
+                        <h6>24/7 Support</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+                <!-- single features -->
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="single-features">
+                        <div class="f-icon">
+                            <img src="/user_assets/img/features/f-icon4.png" alt="">
+                        </div>
+                        <h6>Secure Payment</h6>
+                        <p>Free Shipping on all order</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end features Area -->
+
+    <!-- Start category Area -->
+
+    <!-- End category Area -->
+
+    <!-- start product Area -->
+    <section class=" active-product-area section_gap">
+        <!-- single product slide -->
+        <div class="single-product-slider">
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 text-center">
+                        <div class="section-title">
+                            <h1>Latest Products</h1>
+                            <p>"Unleash your stride with Nike's latest shoe collection. Elevate your performance, style,
+                                and comfort with every step. Experience the future of footwear today."</p>
+                        </div>
+                    </div>
+                </div>
+                <section class="lattest-product-area pb-40 category-list">
+                    <div class="row" id="productList">
+                        <!-- This is where the filtered products will be displayed -->
+                        <% if (product.length> 0) {
+                            for (let i = 0; i < product.length; i++) { %>
+                                <div class="col-lg-4 col-md-6">
+                                    <div class="single-product">
+                                        <a href="/detail?id=<%= product[i].id %>"><img class="img-fluid"
+                                                src="/admin_assets/img/<%= product[i].image[0] %>" alt="" /></a>
+                                        <div class="product-details">
+                                            <h6 class="w-100 break-word text-secondary">
+                                                <%= product[i].name %>
+                                            </h6>
+                                            <div class="price">
+                                                <h6>$<%= product[i].price %>
+                                                </h6>
+                                            </div>
+                                            <div>
+                                                <h6 id="truncateLongTexts">
+                                                    <%=product[i].description%>
+                                                </h6>
+                                            </div>
+                                            <div class="prd-bottom">
+                                                <a onclick="addToCart('<%=product[i]._id%>')" class="social-info">
+                                                    <span class="ti-bag"></span>
+                                                    <p class="hover-text">add to bag</p>
+                                                </a>
+                                                <a onclick="addtoWish('<%=product[i]._id%>')" class="social-info">
+                                                    <span class="lnr lnr-heart"></span>
+                                                    <p class="hover-text">Wishlist</p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } } else { %>
+                                    <p>No products found for this category.</p>
+                                    <% } %>
+                    </div>
+                </section>
+    </section>
+    <!-- end product Area -->
+
+    <!-- Start exclusive deal Area -->
+
+    <!-- End exclusive deal Area -->
+
+    <!-- Start brand Area -->
+    <section class="brand-area section_gap ">
+        <div class="container ">
+            <div class="row ">
+                <a class="col" href="#">
+                    <img class="img-fluid d-block mx-auto" src="/user_assets/img/brand/1.png" alt="">
+                </a>
+                <a class="col" href="#">
+                    <img class="img-fluid d-block mx-auto" src="/user_assets/img/brand/puma.png" alt="">
+                </a>
+                <a class="col" href="#">
+                    <img class="img-fluid d-block mx-auto" style="filter: invert();" src="/user_assets/img/brand/3.png"
+                        alt="">
+                </a>
+                <a class="col" href="#">
+                    <img class="img-fluid d-block mx-auto" src="/user_assets/img/brand/4.png" alt="">
+                </a>
+                <a class="col" href="#">
+                    <img class="img-fluid d-block mx-auto" src=" /user_assets/img/brand/5.png" alt="">
+                </a>
+            </div>
+        </div>
+    </section>
+    <!-- End brand Area -->
+
+    <!-- Start related-product Area -->
+
+    <!-- End related-product Area -->
+
+    <%- include('../user/layouts/footer.ejs') %>
+
+        <script>
+            function addtoWish(productId) {
+                event.preventDefault()
+                console.log('hai');
+                $.ajax({
+                    url: '/addToWish',
+                    method: 'post',
+                    data: {
+                        proId: productId
+                    },
+                    success: (response) => {
+                        if (response.success === true) { // Corrected from Response.success to response.success
+                            Swal.fire({
+                                title: 'Success!',
+                                text: 'applied',
+                                icon: 'success',
+                                timer: 1500
+                            });
+                            $('#reloadDiv').load('/detail #reloadDiv');
+                        }
+                        else if (response.NoUser === true) {
+                            window.location = '/login'
+                        } else {
+                            Swal.fire({
+                                title: 'oops..',
+                                text: response.message,
+                                icon: 'error',
+                                timer: 1500
+                            });
+                        }
+                    },
+                    error: (err) => {
+                        console.log(err);
+                        Swal.fire({
+                            title: 'Error',
+                            text: 'Something went wrong',
+                            icon: 'error',
+                            timer: 1500
+                        });
+                    }
+                });
+            }
+
+
+            addToCart = async (product_Id) => {
+                try {
+                    event.preventDefault();
+                    //    let product_quantity = document.getElementById('sst_'+ product_Id).value
+                    let product_quantity = 1
+                    const quantityData = await axios.post('/cart', { product_quantity, product_Id })
+
+                    if (quantityData.data.count) {
+                        console.log('Added To Cart');
+                        Toastify({
+                            text: 'Added to cart',
+                            duration: 1000,
+                            newWindow: false,
+                            close: false,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: false,
+                            style: {
+                                background: "#384aeb",
+                            }
+                        }).showToast();
+                    } else if (quantityData.data.limit) {
+                        console.log('limit');
+                        Toastify({
+                            text: "Limit Exceeded",
+                            duration: 1000,
+                            newWindow: false,
+                            close: false,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: false,
+                            style: {
+                                background: "#384aeb",
+                            }
+                        }).showToast();
+                    }
+                    else {
+                        window.location = '/login'
+                    }
+                    console.log(quantityData);
+                } catch (error) {
+                    console.log(error.message);
+                }
+            }
+        </script>

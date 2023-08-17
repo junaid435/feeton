@@ -1,0 +1,111 @@
+<%- include('../admin/layouts/header.ejs') %>
+
+
+
+  <body>
+    <div class="screen-overlay"></div>
+    
+    <main class="main-wrap">
+   
+      <section class="content-main">
+        <div class="row">
+          <div class="col-9">
+            <div class="content-header">
+              <h2 class="content-title">Add New Banner</h2>
+            </div>
+          </div>
+          <div class="col-12 col-sm-9">
+            <div class="card mb-4">
+              <div class="card-header">
+                <h4>Basic</h4>
+              </div>
+            
+              <div class="card-body">
+                <form
+                  action="/admin/addBanner"
+                  method="post"
+                  enctype="multipart/form-data"
+                >
+                  <div class="mb-4">
+                    <label for="product_name" class="form-label"
+                      >Banner title</label
+                    >
+                    <input
+                      type="text"
+                      placeholder="Type here"
+                      name="title"
+                      class="form-control"
+                      id="product_name"
+                      required
+                    />
+                  </div>
+                  <div class="mb-4">
+                    <label class="form-label">Description</label>
+                    <textarea
+                      placeholder="Type here"
+                      id="description"
+                      name="description"
+                      class="form-control"
+                      rows="4"
+                      required
+                    ></textarea>
+                  </div>
+                  <div class="col-lg-12">
+                    <div class="card mb-4">
+                      <div class="card-header">
+                        <h4>Media</h4>
+                      </div>
+                      <div class="card-body">
+                        <div class="input-upload">
+                          <input
+                            class="form-control"
+                            type="file"
+                            name="image"
+                            accept="image/*"
+                            multiple
+                            required
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    <!-- card end// -->
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-md rounded font-sm hover-up">
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <!-- card end// -->
+          </div>
+        </div>
+      </section>
+      <!-- content-main end// -->
+     
+   
+    <script>
+      const productName = document.getElementById("product_name");
+      productName.addEventListener("input", () => {
+        let product_name = productName.value.trim();
+        if (product_name === "") {
+          productName.setCustomValidity("Product name name cannot be null");
+        } else {
+          productName.setCustomValidity("");
+        }
+      });
+      const description = document.getElementById("description");
+      description.addEventListener("input", () => {
+        let descriptionValue = description.value.trim();
+        if (descriptionValue === "") {
+          description.setCustomValidity("Description cannot be empty");
+        } else {
+          description.setCustomValidity("");
+        }
+      });
+    </script>
+  </body>
+</html>
+<%- include('../admin/layouts/footer.ejs') %>

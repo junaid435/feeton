@@ -1,0 +1,94 @@
+<%- include("../admin/layouts/header.ejs") %>
+<%- include("../admin/layouts/navbar.ejs") %>
+
+
+
+  <style>
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .icon {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-6 offset-lg-3">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h3>User Details</h3>
+            <div>
+              <i class="icon fas fa-user"></i>
+              <i class="icon fas fa-envelope"></i>
+              <i class="icon fas fa-phone"></i>
+              <i class="icon fas fa-check-circle"></i>
+              <i class="icon fas fa-lock"></i>
+              <i class="icon fas fa-wallet"></i>
+              <i class="icon fas fa-address-card"></i>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <p><i class="icon fas fa-user"></i><strong>Name:</strong><%=userData.name%></p>
+                <p><i class="icon fas fa-envelope"></i><strong>Email:</strong><%=userData.email%></p>
+                <p><i class="icon fas fa-phone"></i><strong>Phone:</strong><%=userData.Phone%></p>
+                <%if(userData.is_verified==1){%>
+                <p><i class="icon fas fa-check-circle text-success"></i><strong>Is Verified:</strong> Yes</p>
+               <%}else{%>
+                <p><i class="icon fas fa-check-circle text-success"></i><strong>Is Verified:</strong> No</p>
+              <% } %>
+              </div>
+              <div class="col-md-6">
+                <%if(userData.is_block==false){%>
+                <p><i class="icon fas fa-times-circle text-danger"></i><strong>Is Blocked:</strong> No</p>
+                <%}else{%>
+                  <p><i class="icon fas fa-times-circle text-danger"></i><strong>Is Blocked:</strong> Yes</p>
+                  <% } %>
+                <p><i class="icon fas fa-wallet"></i><strong>Wallet:</strong><%=userData.wallet%></p>
+                <p>
+                  <i class="icon fas fa-address-card"></i><strong>Address:</strong>
+
+                  <%if(addressData&&addressData.length>0){
+                   addressData.address.forEach(function(Address) { %>
+                    <div>
+                      <%= Address.fname %>
+                      <%= Address.sname %>
+                      <%= Address.mobile %>
+                      <%= Address.email %>
+                      <%= Address.housename %>
+                      <%= Address.city %>
+                      <%= Address.state %>
+                      <%= Address.district %>
+                      <%= Address.country %>
+                      <%= Address.pin %>
+                   
+                    </div>
+                  <% });
+                   }else{%>
+<p>No Address</p>
+               <% } %>
+                </p>
+                <hr>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+<%- include("../admin/layouts/footer.ejs") %>
+
+

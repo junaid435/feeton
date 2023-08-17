@@ -1,0 +1,200 @@
+<%- include('../user/layouts/header.ejs') %>
+    <!-- Start Banner Area -->
+    <section class="banner-area organic-breadcrumb">
+        <div class="container">
+            <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+                <div class="col-first">
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Banner Area -->
+    <style>
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            color: #555;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .qty-btn:hover {
+            background-color: #f2f2f2;
+        }
+
+        .qty-btn.qty-btn-plus {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+
+        .qty-btn.qty-btn-minus {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .quantity input[type="text"] {
+            width: 40px;
+            text-align: center;
+            border: none;
+            background-color: transparent;
+            font-size: 16px;
+            font-weight: bold;
+        }
+    </style>
+    <!--================Cart Area =================-->
+
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+
+                    <table class="table">
+                        <thead>
+                            <% if (products && products.items.length> 0) {%>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                   
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                        </thead>
+                        <tbody>
+
+                            <% products.items.forEach((items)=>{ %>
+                                <tr>
+                                    <td>
+                                        <div class="media">
+                                            <div class="d-flex  flex-column">
+                                                <img width="100"
+                                                    src="/admin_assets/img/<%= items.product_Id.image[0] %>" alt="">
+                                                
+                                                      <span><%= items.product_Id.name %></span>  
+                                                    <span> <%= items.product_Id.price %></span>
+                                            </div>
+                                         
+                                        </div>
+                                    </td>
+                                   
+                                    <td class="quantity__item">
+                                        <div id="reloadDiv2" class="quantity">
+                                            <div class="pro-qty-2">
+                                                <%if(items.quantity>1){%>
+                                                    <button class="qty-btn qty-btn-minus" type="button"
+                                                        onclick="increaseQuantity('<%= items.product_Id._id %>', -1)">-</button>
+                                                    <%}%>
+                                                        <input type="text" value="<%= items.quantity %>" readonly>
+                                                        <%if(items.quantity<items.product_Id.stock){%>
+                                                            <button type="button" class="qty-btn qty-btn-plus"
+                                                                onclick="increaseQuantity('<%= items.product_Id._id %>', 1)">+</button>
+                                                            <% }%>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td>
+                                        <div id="reloadDiv1">
+                                        <h5>
+                                            <%= items.total %>
+                                        </h5>
+                                        </div>
+                                    </td>
+                                    <td><a class="btn btn-danger"
+                                            href="/CartRemove?id=<%=items.product_Id._id%>&price= <%= items.total %>">Remove</a>
+                                    </td>
+                                </tr>
+                                <% }) %>
+                                    <tr class="bottom_button">
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+                                            <h5>Grand Total</h5>
+                                        </td>
+                                        <td>
+                                            <div id="reloadDiv">
+                                                <h5>
+                                                    <%= products.grandTotal %>
+                                                </h5>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="out_button_area">
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+
+                                        </td>
+                                        <td>
+                                            <div class="checkout_btn_inner d-flex  justify-content-end">
+                                                <a class="primary-btn " href="/Proceed">Proceed to checkout</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <% } else { %>
+                                        <h1>Your Cart is Empty</h1>
+                                        <p>Add items to your cart to see them here.</p>
+                                        <% } %>
+
+                        </tbody>
+
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <!--================End Cart Area =================-->
+    <%- include('../user/layouts/footer.ejs') %>
+
+        <script>
+
+
+
+
+            function increaseQuantity(productId, count) {
+                $.ajax({
+                    url: '/changes',
+                    method: 'patch',
+                    data: {
+                        productId,
+                        count: count
+                    },
+                    success: (response) => {
+                        if (response.success === true) {
+                            $('#reloadDiv').load('/cart #reloadDiv')
+                            $('#reloadDiv1').load('/cart #reloadDiv1')
+                            $('#reloadDiv2').load('/cart #reloadDiv2')
+                        } else {
+                            Swal.fire({
+                                title: "Error",
+                                icon: 'error',
+                                text: response.message,
+                                timer: 2000
+                            })
+                        }
+                    },
+                    error: (error) => {
+
+                        Swal.fire({
+                            title: "Error",
+                            icon: 'error',
+                            text: response.message,
+                            timer: 1500
+                        })
+                    }
+                })
+            }
+        </script>

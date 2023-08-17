@@ -1,0 +1,317 @@
+<%- include('../admin/layouts/header.ejs') %>
+<%- include('../admin/layouts/navbar.ejs') %>
+
+    <section class="content-main">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Dashboard</h2>
+                <p>Whole data about your business here</p>
+            </div>
+            <div>
+                <a href="/admin/logout" class="btn btn-primary">Log Out</a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card card-body mb-4">
+                    <article class="icontext">
+                        <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                class="text-primary material-icons md-monetization_on"></i></span>
+                        <div class="text">
+                            <h6 class="mb-1 card-title">Revenue</h6>
+                            <%if(Revenue!==undefined ){%>
+                                <span>₹<%= Revenue%></span>
+                                <span class="text-sm"> Shipping fees are not included </span>
+                                <%}%>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-body mb-4">
+                    <article class="icontext">
+                        <span class="icon icon-sm rounded-circle bg-success-light"><i
+                                class="text-success material-icons md-local_shipping"></i></span>
+                        <div class="text">
+                            <h6 class="mb-1 card-title">Orders</h6>
+                            <%if(countOrder!==undefined ){%>
+                            <span><%=countOrder%></span>
+                            <span class="text-sm">Excluding orders in transit</span>
+                            <%}%>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-body mb-4">
+                    <article class="icontext">
+                        <span class="icon icon-sm rounded-circle bg-warning-light"><i
+                                class="text-warning material-icons md-qr_code"></i></span>
+                        <div class="text">
+                            <h6 class="mb-1 card-title">Products</h6>
+                            <%if(countProduct!==undefined ){%>
+                            <span><%=countProduct%></span>
+                            <span class="text-sm"> In <%=countCategory%> Categories </span>
+                            <%}%>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-body mb-4">
+                    <article class="icontext">
+                        <span class="icon icon-sm rounded-circle bg-info-light"><i class="text-info material-icons md-account_circle"></i>
+                        </span>
+                        <div class="text">
+                            <h6 class="mb-1 card-title">User</h6>
+                            <%if(countProduct!==undefined ){%>
+                            <span><%=countUser%></span>
+                            <%}%>
+                            
+                        </div>
+                    </article>
+                </div>
+            </div>
+            
+        </div>
+        <div class="row">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div id="weekSale" class="card mb-4">
+                        
+                    </div>
+                    
+                </div>
+                <div class="col-xl-8 col-lg-6">
+                    <div id="categories" class="card mb-4">
+                        
+                        <%if(Category&&Category.length>0){
+                        for(let i=0;i<Category.length;i++){
+                            %><input type="hidden" value="<%=Category[i].name%>" id="Category<%=[i]%>"><%
+                        }
+                    }%>
+            
+                    </div>
+                    </div>
+                <div class="col-xl-4 col-lg-6 " >
+                    <div id="payment" class="card mb-4">
+                        <div class="">
+                            <div class="text-md-center text-xl-left">
+                                <h6 class="mb-1">Payment via Razorpay</h6>
+                        </div>
+                        <%if(paymentRazor!==NaN){%>
+                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                          <h6 class="font-weight-bold mb-0">₹ <%= paymentRazor%></h6>
+                        </div>
+                    <%}%>
+                      </div>
+                      <div class="">
+                        <div class="text-md-center text-xl-left">
+                          <h6 class="mb-1">Payment via COD</h6>
+                        </div>
+                        <%if(paymentCod!==NaN){%>
+                        <div class="align-self-center flex-grow text-right text-md-center text-xl-right py-md-2 py-xl-0">
+                          <h6 class="font-weight-bold mb-0">₹ <%= paymentCod%></h6>
+                        </div>
+                        <%}%>
+                      </div>
+                </div>
+                </div>
+                <div class="card mb-4">
+                   
+                </div>
+            </div>
+        </div>
+       
+    </section>
+    <!-- content-main end// -->
+    
+    
+    <%- include('../admin/layouts/footer.ejs') %>
+    <script>
+        let paymentRazor;
+        let paymentCod=0
+       if("<%= paymentRazor%>"!==NaN){
+             paymentRazor = parseInt("<%= paymentRazor%>")  
+        }else{
+             paymentRazor=0
+        }
+        if("<%= paymentCod%>"!==NaN){
+             paymentCod = parseInt("<%= paymentCod%>") 
+        }else{
+             paymentCod=0
+        }
+        
+  
+    const valueCategorySale=[]
+    const CategorySale=[]
+    for(let i=0;i<'<%=Category.length%>';i++){
+        const Category=String(document.getElementById(`Category${i}`).value) 
+        CategorySale.push(Category)
+    }
+    console.log(CategorySale);
+
+    let AthleticShoes = parseInt("<%=ordersCategory.AthleticShoes%>");
+      let CasualShoes = parseInt("<%=ordersCategory.CasualShoe%>");
+      let DressShoes = parseInt("<%=ordersCategory.DressShoes%>");
+      let  Boots = parseInt("<%=ordersCategory.Boots%>");
+      let  Sandals = parseInt("<%=ordersCategory.Sandals%>");
+      let  Slippers = parseInt("<%=ordersCategory.Slippers%>");
+      let HighHeels = parseInt("<%=ordersCategory.HighHeels%>");
+      let  Flats = parseInt("<%=ordersCategory.Flats%>");
+      let PlatformShoes = parseInt("<%=ordersCategory.PlatformShoes%>");
+      let RunningShoes = parseInt("<%=ordersCategory.RunningShoes%>");
+      let BalletFlats = parseInt("<%=ordersCategory.BalletFlats%>");
+      let Loafers = parseInt("<%=ordersCategory.Loafers%>");
+      
+      // Check for NaN and set the value to 0 if it's NaN
+      AthleticShoes = isNaN(AthleticShoes) ? 0 : AthleticShoes;
+      CasualShoes = isNaN(CasualShoes) ? 0 : CasualShoes;
+      DressShoes = isNaN(DressShoes) ? 0 :DressShoes;
+      Boots = isNaN(Boots) ? 0 : Boots;
+      Sandals = isNaN(Sandals) ? 0 : Sandals;
+      Slippers = isNaN(Slippers) ? 0 :Slippers;
+      HighHeels= isNaN(HighHeels) ? 0 : HighHeels;
+      Flats = isNaN(Flats) ? 0 : Flats;
+      PlatformShoes = isNaN(PlatformShoes) ? 0 :PlatformShoes;
+      RunningShoes = isNaN(RunningShoes) ? 0 : RunningShoes;
+      BalletFlats = isNaN(BalletFlats) ? 0 : BalletFlats;
+      Loafers = isNaN(Loafers) ? 0 :Loafers;
+    
+    var options = {
+       
+        series: [{
+            data: [AthleticShoes,CasualShoes,DressShoes,Boots,Sandals,Slippers,HighHeels,Flats,PlatformShoes,RunningShoes,BalletFlats,Loafers]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                borderRadius: 4,
+                horizontal: true,
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories:CategorySale,
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#categories"), options);
+    chart.render();
+
+
+    var options = {
+          series: [paymentRazor, paymentCod],
+          chart: {
+          type: 'donut',
+        },
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 200
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }]
+        };
+
+        var chart = new ApexCharts(document.querySelector("#payment"), options);
+        chart.render();
+
+        const revenue = <%- JSON.stringify(result.map(item => item.dailyrevenue)) %>;
+const days = <%- JSON.stringify(result.map(item => item._id)) %>;
+
+        console.log(days);
+        console.log(revenue);
+
+    var options = {
+        series: [{
+            data:revenue
+
+        }],
+        chart: {
+            type: 'bar',
+            height:200 
+        },
+        plotOptions: {
+            bar: {
+                barHeight: '100%',
+                distributed: true,
+                horizontal: true,
+                dataLabels: {
+                    position: 'bottom'
+                },
+            }
+        },
+        colors: ['#33b2df', '#546E7A', '#d4526e', '#13d8aa', '#A5978B', '#2b908f', '#f9a3a4'
+        ],
+        dataLabels: {
+            enabled: true,
+            textAnchor: 'start',
+            style: {
+                colors: ['#fff']
+            },
+            formatter: function (val, opt) {
+                return opt.w.globals.labels[opt.dataPointIndex] + ":  " + val
+            },
+            offsetX: 0,
+            dropShadow: {
+                enabled: true
+            }
+        },
+        stroke: {
+            width: 1,
+            colors: ['#fff']
+        },
+        xaxis: {
+            categories:days
+,
+        },
+        yaxis: {
+            labels: {
+                show: false
+            }
+        },
+        title: {
+            text: 'weekly sales',
+            align: 'center',
+            floating: true
+        },
+        subtitle: {
+            text: ' ',
+            align: 'center',
+        },
+        tooltip: {
+            theme: 'dark',
+            x: {
+                show: false
+            },
+            y: {
+                title: {
+                    formatter: function () {
+                        return ''
+                    }
+                }
+            }
+        }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#weekSale"), options);
+    chart.render();
+
+    
+    
+
+
+
+    
+
+</script>

@@ -1,0 +1,115 @@
+
+
+
+<!DOCTYPE html>
+<html lang="zxx" class="no-js">
+
+<head>
+	<!-- Mobile Specific Meta -->
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<!-- Favicon-->
+	<link rel="shortcut icon" href="">
+	<!-- Author Meta -->
+	<meta name="author" content="CodePixar">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+	<meta charset="UTF-8">
+	<!-- Site Title -->
+	<title>feeton</title>
+	<!--
+		CSS
+		============================================= -->
+	<link rel="stylesheet" href="/user_assets/css/linearicons.css">
+	<link rel="stylesheet" href="/user_assets/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/user_assets/css/themify-icons.css">
+	<link rel="stylesheet" href="/user_assets/css/bootstrap.css">
+	<link rel="stylesheet" href="/user_assets/css/owl.carousel.css">
+	<link rel="stylesheet" href="/user_assets/css/nice-select.css">
+	<link rel="stylesheet" href="/user_assets/css/nouislider.min.css">
+	<link rel="stylesheet" href="/user_assets/css/ion.rangeSlider.css" />
+	<link rel="stylesheet" href="/user_assets/css/ion.rangeSlider.skinFlat.css" />
+	<link rel="stylesheet" href="/user_assets/css/magnific-popup.css">
+	<link rel="stylesheet" href="/user_assets/css/main.css">
+</head>
+
+<body>
+
+	<!-- Start Header Area -->
+	
+	<!-- End Header Area -->
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap mt-5 pt-0">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12  px-5 pb-5">
+					<div class="login_form_inner pb-5">
+						<% if (typeof message !== 'undefined') { %>
+							<p style="color: red;"><%= message %></p>
+						  <% } %>
+						<h3>login</h3>
+						<form class="row login_form" action="/admin/login" method="post" id="contactForm" novalidate="novalidate">
+							<div class="col-md-12 form-group">
+								<input type="email" class="form-control" id="email" name="email" placeholder="Email" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email'">
+								<span class="text-danger" id="Email_error"></span>
+							</div> 
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
+								<span class="text-danger" id="Password_error"></span>
+							</div>
+							<div class="col-md-12 form-group">
+								<button type="submit" value="submit" class="primary-btn">sign-up</button>
+							</div>
+							
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+	<script>
+			   const email=document.getElementById('email')
+		   const password=document.getElementById('password')
+		   const Email_error=document.getElementById('Email_error')
+		   const Password_error=document.getElementById('Password_error')
+
+		   email.addEventListener("input",()=>{
+			   if(email.value.trim()==""){
+				   email.setCustomValidity("please enter the email")
+				   Email_error.innerHTML ="please enter  a valid email"
+				   return false
+			   }
+			if(!email.value.match((/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/))){
+				name.setCustomValidity("please enter the name")
+			Email_error.innerHTML ="please enter  a valid email"
+			return false
+		}		else{
+				Email_error.innerHTML =""
+		return true
+			}
+		
+
+
+        })
+		password.addEventListener("input",()=>{
+            if(password.value.trim()==""){
+				Password_error.innerHTML ="please enter the password"
+				return false
+            }
+			else{
+				Password_error.innerHTML =""
+			return true
+			}
+		
+
+        })
+
+
+	</script>
+	<!--================End Login Box Area =================-->
+

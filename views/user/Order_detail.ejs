@@ -1,0 +1,199 @@
+<%- include('../user/layouts/header.ejs') %>
+    <div id="reloadDiv">
+        <br>
+        <div class="container mt-5">
+            <h1 class="text-center">Order Detail</h1>
+            <hr>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Order Information</h5>
+                    <hr>
+
+                    <!-- Replace with actual order information -->
+                    <% if (order) {%>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <strong>Date:</strong>
+
+                        </div>
+                        <div class="col-md-9 ">
+                            <%= order.date.toLocaleString() %>
+
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <strong>Order ID:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <%= order.orderID %>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <strong>Grand Total:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <%= order.totalAmount %>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <strong>Payment:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <%= order.payment %>
+                        </div>
+                    </div>
+                    <div class="row mb-2">
+                        <div class="col-md-3">
+                            <strong>expectedDelivery:</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <%= order.expectedDelivery.toLocaleString() %>
+                        </div>
+                    </div>
+                    <!-- Add more order information fields as needed -->
+
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Products Ordered</h5>
+                    <hr>
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Image</th>
+                                    <th scope="col"> Name</th>
+                                    <th scope="col">Quantity</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Total</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% if (order && order.products && order.products.length > 0) {
+                                    order.products.forEach((product) => { %>
+                                    <tr class="cart-item">
+                                        <td class="align-middle">
+                                            <img src="/admin_assets/img/<%= product.product_Id.image[0] %>"
+                                                alt="<%= product.product_Id.name %>" class="img-fluid">
+                                        </td>
+                                        <td class="align-middle"><%= product.product_Id.name %></td>
+                                        <td class="align-middle"><%= product.quantity %></td>
+                                        <td class="align-middle">₹<%= product.product_Id.price %></td>
+                                        <td class="align-middle">₹<%= product.total %></td>
+                                        <td class="align-middle text-center">
+                                            <% if (product.status === "delivered") { %>
+                                                <button class="btn btn-danger" onclick="orderReturn('<%= order._id %>', '<%= product.total %>', '<%= product.product_Id._id %>', '<%= product.quantity %>', '<%= order.orderID %>', 'return')">Return</button>
+                                            <% } else if (product.status === "cancelled") { %>
+                                                <%= product.status %>
+                                            <% } else if (product.status === "returned") { %>
+                                                <%= product.status %>
+                                            <% } else { %>
+                                                <button class="btn btn-danger" onclick="OrderCancel('<%= order._id %>', '<%= product.quantity %>', '<%= product.product_Id._id %>', '<%= order.payment %>', '<%= product.total %>', '<%= order.orderID %>', 'cancel')">Cancel</button>
+                                                <%= product.status %>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <% }); }
+                                 } %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <!-- Add more sections for shipping information, payment details, etc. -->
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+        function OrderCancel(OrderId, quantity, productId, payment, price, orderID) {
+            $.ajax({
+                url: '/orderCancel', // Replace this with your actual server-side endpoint URL
+                method: 'patch',
+                data: {
+                    OrderId,
+                    quantity,
+                    productId,
+                    price,
+                    payment,
+                    orderID
+                },
+                success: (response) => {
+                    if (response.success) {
+                        console.log('Order canceled successfully.'); // For debugging purposes
+                        location.reload(); // Reload the page after successful cancellation
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                            timer: 2000,
+                        });
+                    }
+                },
+                error: (xhr, status, error) => {
+                    Swal.fire({
+                        title: 'Error',
+                        icon: 'error',
+                        text: 'An error occurred while canceling the order.',
+                        timer: 2000,
+                    });
+                },
+            })
+        }
+
+
+
+
+        function orderReturn(OrderId, price, productId, quantity, orderID) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '/orderReturn', // Replace this with your actual server-side endpoint URL
+                method: 'patch',
+                data: {
+                    OrderId,
+                    price,
+                    productId,
+                    quantity,
+                    orderID
+                },
+                success: (response) => {
+                    if (response.success) {
+                        console.log('Order returned successfully.'); // For debugging purposes
+                        location.reload(); // Reload the page after successful return
+                    } else {
+                        Swal.fire({
+                            title: 'Error',
+                            icon: 'error',
+                            text: response.message,
+                            timer: 2000,
+                        });
+                    }
+                },
+                error: (xhr, status, error) => {
+                    Swal.fire({
+                        title: 'Error',
+                        icon: 'error',
+                        text: 'An error occurred while processing the return.',
+                        timer: 2000,
+                    });
+                },
+            });
+        }
+    </script>
+
+    <%- include('../user/layouts/footer.ejs') %>

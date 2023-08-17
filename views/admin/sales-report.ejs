@@ -1,0 +1,198 @@
+<%- include("../admin/layouts/header.ejs") %>
+<%- include("../admin/layouts/navbar.ejs") %>
+
+
+<style>
+    /* Add your custom CSS styles here */
+
+    /* Example styles for responsive layout */
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .card {
+      background-color: #101116;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .table-container {
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #ddd;
+    }
+    th {
+      background-color:  #101116;
+    }
+    img {
+      max-width: 100px;
+      max-height: 100px;
+    }
+    .sort-container {
+      text-align: right;
+    }
+    .sort-container label {
+      font-weight: bold;
+    }
+    table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  th,
+  td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+
+  th {
+    background-color: #101116;
+    color: #ffffff;
+  }
+
+  img {
+    max-width: 50px;
+    max-height: 50px;
+  }
+
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    th,
+    td {
+      padding: 8px;
+    }
+  }
+
+  .dt-buttons{
+    margin-top: -60px;
+  }
+ 
+  </style>
+
+<div class="container">
+  <% if ( totalAmount && totalSold && totalAmount.length > 0 && totalSold.length > 0 && product.length > 0) { %>
+    <div class="card" style="margin-top: 70px;">
+      <h2>Total Amount Generated: <%= totalAmount[0].total %></h2>
+      <h2>Total Product Sold Quantity: <%= totalSold[0].total %></h2>
+    </div>
+    <div class="table-container">
+        <div class="sort-container mb-3">
+          <form action="/admin/sales-report" method="post">
+            <label for="from-date">From Date:</label>
+            <input type="date" id="from-date" name="fromDate" required>
+            <label for="to-date">To Date:</label>
+            <input type="date" id="to-date" name="toDate" required>
+            <button class="button" type="submit" id="get-report-btn" style="background-color: #558157; color: white; border: none; padding: 4px 20px; text-align: center; font-size: 16px; cursor: pointer; border-radius: 4px;">Get Report</button>
+        </form>
+            
+    </div>
+    </div>
+    <div class="container"></div>
+      <div id="reloadDiv">    
+        <table id="example">
+          <thead>
+            <tr>
+              <th>Order ID</th>
+              <th>Product Name</th>
+              <th>Product Image</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>User Name</th>
+              <th>Delivery Date</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% product.forEach((order) => { %>
+              <% order.products.forEach((product,index) => { %>
+                <% if (product.status === 'delivered') { %>
+                  <tr>
+                    <td><%= order.orderID %></td>
+                    <td><%= product.product_Id.name %></td>
+                    <td><img src="/admin_assets/img/<%= product.product_Id.image[0] %>" style="width: 50px; height: 50px;" alt="<%= product.product_Id.name %>"></td>
+                    <td><%= product.quantity %></td>
+                    <td><%= product.price %></td>
+                    <td><%= order.user.name %></td>
+                    <td><%= order.expectedDelivery.toLocaleDateString('en-US', { year: 'numeric' ,
+                      month: 'short' , day: '2-digit' }).replace(/\//g,'-') %></td>
+                      <td><a href="/admin/orderDetails?id=<%= order._id%>&i=<%=index%>">orderDetails</a></td>
+                  </tr>
+                  <% } %>
+              <% }) %>
+            <% }) %>
+          </tbody>
+        </table>        
+  <% } else { %>
+    <h2 style="margin-top: 100px;">No data available.</h2>
+  <% } %>
+</div>
+</div>
+<style>
+  .dt-button.buttons-excel,
+  .dt-button.buttons-csv,
+  .dt-button.buttons-pdf {
+    background-color: #558157;
+    /* Change background color */
+    color: white;
+    /* Change text color */
+    border-radius: 5px;
+    /* Add rounded corners */
+    border: none;
+    /* Remove border */
+    margin: 10px;
+    /* Add some spacing between buttons */
+    padding: 8px 16px;
+    /* Increase padding */
+  }
+</style>
+
+
+<style>
+  .dt-button.buttons-copy,
+  .dt-button.buttons-print {
+      background-color: #030712;
+      color: white;
+      border-radius: 5px;
+      border: none;
+      margin-right: 10px;
+      padding: 8px 16px;
+    }
+    
+    
+</style>
+
+<%- include('../admin/layouts/footer.ejs') %>
+
+<script>
+
+
+
+
+  $(document).ready(function () {
+    $('#example').DataTable({
+      dom: 'Bfrtip',
+      buttons: [
+         'excel', 'pdf'
+      ]
+    });
+  });
+
+  
+
+
+
+</script>
+
+
+

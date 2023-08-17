@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Address Page</title>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- Font Awesome CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+    }
+
+    .address-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #f90;
+      margin-bottom: 20px;
+    }
+
+    .address-icon {
+      font-size: 32px;
+      margin-right: 10px;
+      color: #f90;
+    }
+
+    .address-label {
+      font-weight: bold;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      font-weight: bold;
+    }
+
+    .form-control:focus {
+      box-shadow: none;
+    }
+
+    .btn-primary {
+      background-color: #f90;
+      border-color: #f90;
+    }
+
+    .btn-primary:hover {
+      background-color: #e8800e;
+      border-color: #e8800e;
+    }
+
+    @media (max-width: 576px) {
+      .address-container {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="address-container">
+      <h1><i class="fas fa-map-marker-alt address-icon"></i>My Address</h1>
+      <form action="/addAddressCart" method="post">
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input type="text" class="form-control" name="firstName" id="firstName" placeholder="Enter your first name" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" class="form-control" name="lastName" id="lastName" placeholder="Enter your last name" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="address">Housename</label>
+          <input type="text" class="form-control" name="address1" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-group">
+          <label for="address">City</label>
+          <input type="text" class="form-control" name="address2" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-group">
+          <label for="address">State</label>
+          <input type="text" class="form-control" name="address3" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-group">
+          <label for="address">District</label>
+          <input type="text" class="form-control" name="address4" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-group">
+          <label for="address">Country</label>
+          <input type="text" class="form-control" name="address5" id="address" placeholder="Enter your address" required>
+        </div>
+        <div class="form-row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email" required>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input type="tel" class="form-control" name="phone" id="phone" placeholder="Enter your phone number" required>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="pincode">Pin Code</label>
+          <input type="text" class="form-control" name="pincode" id="pincode" placeholder="Enter your pin code" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+</body>
+
+</html>
+
+
+
+
+<script>
+  const fname=document.getElementById('firstName')
+  const lname=document.getElementById('lastName')
+  const email=document.getElementById('email')
+  const mobile=document.getElementById('phone')
+  const addressInput=document.getElementById('address')
+  const pincode=document.getElementById('pincode')
+
+
+       fname.addEventListener("input",()=>{
+           if(fname.value.trim()==""){
+            fname.setCustomValidity("please enter the firstName")
+           }
+     else{
+      fname.setCustomValidity("")
+     }
+   
+       })
+       lname.addEventListener("input",()=>{
+           if(lname.value.trim()==""){
+            lname.setCustomValidity("please enter the lastName")   
+      
+           }
+     else{
+      lname.setCustomValidity("")
+     }
+   
+       })
+
+       addressInput.addEventListener("input", () => {
+    const addressValue = addressInput.value.trim();
+
+    if (addressValue === "") {
+      addressInput.setCustomValidity("Please enter a valid address");
+    } else {
+      const addressRegex = /^[a-zA-Z0-9\s\-\.,#]+$/;
+      if (!addressRegex.test(addressValue)) {
+        addressInput.setCustomValidity("Please enter a valid address.");
+      } else {
+        addressInput.setCustomValidity('');
+      }
+    }
+  });
+   
+       mobile.addEventListener("input",()=>{
+     
+     if (!mobile.value.match(/^\d+$/)){
+           mobile.setCustomValidity('please enter the Number')
+   }
+     else{
+       mobile.setCustomValidity('')
+     }
+     
+       })
+       address.addEventListener("input",()=>{
+           if(password.value.trim()==""){
+       password.setCustomValidity('please enter the password')
+           }
+     else{
+       password.setCustomValidity('')
+     }
+   
+
+       })
+
+       pincode.addEventListener("input",()=>{
+     
+     if (!pincode.value.match(/^\d+$/)){
+      pincode.setCustomValidity('please enter the pincode')
+   }
+     else{
+      pincode.setCustomValidity('')
+     }
+     
+       })
+ 
+  
+       </script>

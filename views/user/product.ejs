@@ -1,0 +1,360 @@
+<%- include('../user/layouts/header.ejs') %>
+<!-- Start Banner Area -->
+<style>
+
+#truncateLongTexts {
+  width:10em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis 
+    }
+</style>
+<style>
+  /* Base styles */
+  .form-container {
+    text-align: center;
+    margin: 20px;
+  }
+
+  .search-input {
+    padding: 8px;
+    border: none;
+    border-bottom: 2px solid #3498db;
+    font-size: 14px;
+    width: 180px;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-input:focus {
+    outline: none;
+    border-bottom-color: #e74c3c;
+  }
+
+  .search-button {
+    padding: 8px 15px;
+    background-color: #3498db;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  .search-button:hover {
+    background-color: #e74c3c;
+  }
+
+  /* Responsive styles */
+  @media screen and (max-width: 480px) {
+    .search-input {
+      width: 100%;
+    }
+    
+    .search-button {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+</style>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  .sidebar-filter {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  }
+  .filter-heading {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  .filter-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .filter-select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+  }
+  .apply-button {
+    padding: 10px;
+    background-color: #ff9900;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  .apply-button:hover {
+    background-color: #ff8c00;
+  }
+  
+  /* Responsive Styles */
+  @media screen and (max-width: 600px) {
+    .sidebar-filter {
+      padding: 10px;
+    }
+  }
+</style>
+
+<section class="banner-area organic-breadcrumb">
+  <div class="container">
+    <div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
+
+    </div>
+  </div>
+</section>
+<!-- End Banner Area -->
+<div class="container">
+  <div class="row">
+    <div class="col-xl-3 col-lg-4 col-md-5">
+      <div class="form-container">
+        <form class="mt-3" action="">
+          <input class="search-input" type="text" placeholder="Search" name="search">
+          <br><br>
+          <input  class="search-button" type="submit" value="Search">
+        </form>
+      </div>
+      <div class="sidebar-categories">
+        <br>
+      </div>
+      <body>
+      
+      <div class="sidebar-filter mt-50">
+        <div class="common-filter">
+          <div class="head">Category</div>
+          <form action="#">
+            <ul>
+
+              <select id="filterVAlue" onchange="categoryFilter(this)">
+                <option  value="All">ALL</option>
+                <% for (let i = 0; i < category.length; i++) { %>
+                  <option  value="<%= category[i]._id %>"><%= category[i].name %></option>
+                <% } %>
+              </select>
+              
+            </ul> 
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-9 col-lg-8 col-md-7">
+      <!-- End Filter Bar -->
+      <!-- Start Best Seller -->
+      <section class="lattest-product-area pb-40 category-list">
+        <div class="row" id="productList">
+          <!-- This is where the filtered products will be displayed -->
+          <% if (product.length > 0) {
+            for (let i = 0; i < product.length; i++) { %>
+            <div class="col-lg-4 col-md-6">
+              <div class="single-product">
+                <a href="/detail?id=<%= product[i].id %>"><img class="img-fluid" src="/admin_assets/img/<%= product[i].image[0] %>"
+                    alt="" /></a>
+                <div class="product-details">
+                  <h6 class="w-100 break-word text-secondary">
+                    <%= product[i].name %>
+                  </h6>
+                  <div class="price">
+                    <h6>$<%= product[i].price %>
+                    </h6>
+                  </div>
+                  <div >
+                    <h6 id="truncateLongTexts"><%=product[i].description%></h6>
+                </div>
+                  <div class="prd-bottom">
+                    <a onclick="addToCart('<%=product[i]._id%>')" class="social-info">
+                      <span class="ti-bag"></span>
+                      <p  class="hover-text">add to bag</p>
+                    </a>
+                    <a onclick="addtoWish('<%=product[i]._id%>')" class="social-info">
+                      <span class="lnr lnr-heart"></span>
+                      <p class="hover-text">Wishlist</p>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <% }
+          } else { %>
+            <p>No products found for this category.</p>
+          <% } %>
+        </div> <div class="pagination">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href=" <% if (0<perve&&perve<=totalpages) { %>
+                ?search=<%=search%>&page=<%=perve %>
+              <% } else { %>
+  
+              <% } %>"><<</a>
+            </li> 
+            <% for (let j = 1; j <= totalpages; j++) { %>
+              <li class="page-item">
+                <a class="page-link" href="?search=<%=search%>&page=<%= j %>"><%= j %></a>
+              </li>
+            <% } %>
+          <li class="page-item">
+              <a class="page-link" href= "<% if (next<=totalpages) { %>
+                ?search=<%=search%>&page=<%=next %>
+              <% } else { %>
+            
+              <% } %>">>></a>
+            </li> 
+          </ul>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<!-- End related-product Area -->
+<script>
+
+function addtoWish(productId) {
+		event.preventDefault()
+    console.log('hai');
+    $.ajax({
+        url: '/addToWish',
+        method: 'post',
+        data: {
+            proId: productId
+        },
+        success: (response) => {
+            if (response.success === true) { // Corrected from Response.success to response.success
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'applied',
+                    icon: 'success',
+                    timer: 1500
+                });
+                $('#reloadDiv').load('/detail #reloadDiv');
+            }
+            else if(response.NoUser===true){
+              window.location = '/login'
+            } 
+             else {
+                Swal.fire({
+                    title: 'oops..',
+                    text: response.message,
+                    icon: 'error',
+                    timer: 1500
+                });
+            }
+        },
+        error: (err) => {
+            console.log(err);
+            Swal.fire({
+                title: 'Error',
+                text: 'Something went wrong',
+                icon: 'error',
+                timer: 1500
+            });
+        }
+    });
+}
+
+
+	addToCart = async (product_Id)=>{   
+	 try {  event.preventDefault();
+	//    let product_quantity = document.getElementById('sst_'+ product_Id).value
+	let product_quantity =1
+	const quantityData = await axios.post('/cart',{product_quantity,product_Id})
+
+	 if (quantityData.data.count) {
+         console.log('Added To Cart');
+          Toastify({
+          text: 'Added to cart',
+          duration: 1000,
+          newWindow: false,
+          close: false,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: false,
+          style: {
+            background: "#384aeb",
+          }
+        }).showToast();
+        }else if(quantityData.data.limit){
+			console.log('limit');
+          Toastify({
+          text: "Limit Exceeded",
+          duration: 1000,
+          newWindow: false,
+          close: false,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: false,
+          style: {
+            background: "#384aeb",
+          }
+        }).showToast();
+        }
+		 else{
+			window.location = '/login'
+		}
+	   console.log(quantityData);
+	 } catch (error) {
+	   console.log(error.message);
+	 }
+	 }
+
+
+  function categoryFilter(radio) {
+    const selectedCategory = radio.value;
+    $.ajax({
+      url: '/product',
+      method: 'post',
+      data: { category: selectedCategory },
+      success: (res) => {
+        const productListContainer = document.getElementById('productList');
+        productListContainer.innerHTML = ''; // Clear the existing products
+
+        if (res.length > 0) {
+          res.forEach((product) => {
+            productListContainer.innerHTML += `
+              <div class="col-lg-4 col-md-6">
+                <div class="single-product">
+                  <a href="/detail?id=${product._id}">
+                    <img class="img-fluid" src="/admin_assets/img/${product.image[0]}" alt="" />
+                  </a>
+                  <div class="product-details">
+                    <h6 class="w-100 break-word">${product.name}</h6>
+                    <div class="price">
+                      <h6>$${product.price}</h6>
+                      <!-- <h6 class="l-through">$210.00</h6> -->
+                    </div>
+                    <div class="prd-bottom">
+                      <a href="" class="social-info">
+                        <span class="ti-bag"></span>
+                        <p class="hover-text">add to bag</p>
+                      </a>
+                      <a href="" class="social-info">
+                        <span class="lnr lnr-heart"></span>
+                        <p class="hover-text">Wishlist</p>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            `;
+          });
+        } else {
+          // If no products match the selected category, display a message
+          productListContainer.innerHTML = '<p>No products found for this category.</p>';
+        }
+      },
+      error: (err) => {
+        console.error('Error fetching filtered products:', err);
+      },
+    });
+  }
+</script>
+<%- include('../user/layouts/footer.ejs') %> 

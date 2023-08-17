@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Detail</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .icon {
+      font-size: 24px;
+      margin-right: 5px;
+    }
+    .status-badge {
+      padding: 6px 12px;
+      border-radius: 5px;
+    }
+    .status-placed {
+      background-color: #007bff;
+      color: #fff;
+    }
+    .status-on-the-way {
+      background-color: #28a745;
+      color: #fff;
+    }
+    .status-delivered {
+      background-color: #17a2b8;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-8 offset-lg-2">
+        <div class="card">
+          <div class="card-header bg-primary text-white">
+            <h3>Order Details</h3>
+            <i class="icon fas fa-shopping-cart"></i>
+          </div>
+          <div class="card-body">
+            <p><i class="icon fas fa-file-alt"></i> <strong>Order ID:</strong><%=orderData.orderID%></p>
+            <p><i class="icon fas fa-map-marker-alt"></i> <strong>Delivery Address:</strong><%=orderData.deliveryAddress%></p>
+            <p><i class="icon fas fa-user"></i> <strong>User Name:</strong><%=orderData.userName%></p>
+           
+            <p><i class="icon fas fa-money-bill-wave"></i> <strong>Total Amount:</strong>₹ <%=orderData.products[i].total%></p>
+           
+            <p><i class="icon fas fa-calendar-alt"></i> <strong>Date:</strong><%=orderData.date.toLocaleDateString('en-US', { year: 'numeric' ,
+              month: 'short' , day: '2-digit' }).replace(/\//g,'-')%></p>
+            <p><i class="icon fas fa-money-check-alt"></i> <strong>Payment Method:</strong><%=orderData.payment%></p>
+            <p><i class="icon fas fa-clock"></i> <strong>Expected Delivery:</strong><%=orderData.expectedDelivery.toLocaleDateString('en-US', { year: 'numeric' ,
+              month: 'short' , day: '2-digit' }).replace(/\//g,'-') %></p>
+            <hr>
+            
+            <h4><i class="icon fas fa-box-open"></i> Products</h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Product ID</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><%=orderData.orderID%></td>
+                  <td><%=orderData.products[i].quantity%></td>
+                  <td>₹<%=orderData.products[i].price%></td>
+                  <td>₹<%=orderData.products[i].total%></td>
+                  <td><span class="status-badge status-on-the-way"><%=orderData.products[i].status%></span></td>
+                </tr>
+                <!-- Add more rows for each product -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

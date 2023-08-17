@@ -1,0 +1,203 @@
+
+
+
+<%- include('../user/layouts/header.ejs') %>
+
+<style>
+	.product__details__pic__item {
+		margin-left: 150px;
+		position: relative;
+		height: 300px;
+		width: 300px;
+		overflow: hidden;
+		border: 1px solid rgb(252, 248, 248);
+	}
+
+	.product__details__pic__item img {
+		-o-object-fit: cover;
+		object-fit: cover;
+		transform: scale(var(--zoom, 1));
+		transform-origin: var(--x) var(--y);
+		transition: transform 0.3s ease;
+	}
+
+	.product__details__pic__item:hover {
+		--zoom: 3;
+		cursor: pointer;
+	}
+</style>
+
+	<!--================Single Product Area =================-->
+	<br>
+	<div class="product_image_area">
+	  <div class="container">
+		<div class="row s_product_inner">
+		  <div class="col-lg-6 col-md-6">
+			<div id="product-carousel" class="carousel slide" data-ride="carousel">
+			  <div class="carousel-inner">
+				<% for(let i=0; i<product.image.length; i++){ %>
+				<div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+				  <img class="d-block w-100 product-image" src="/admin_assets/img/<%=product.image[i]%>" alt="">
+				</div>
+				<% } %>
+			  </div>
+			  <a class="carousel-control-prev" href="#product-carousel" role="button" data-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="sr-only">Previous</span>
+			  </a>
+			  <a class="carousel-control-next" href="#product-carousel" role="button" data-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="sr-only">Next</span>
+			  </a>
+			</div>
+		  </div>
+		  <div class="col-lg-6 col-md-6">
+			<div class="s_product_text">
+			  <h3><%=product.name%></h3>
+			  <h2>$<%=product.price%></h2>
+			  <ul class="list">
+				<li><a class="active" href="#"><span>Category</span><%= product.category.name%></a></li>
+				<li>
+				  <a href="#">
+					<span>Availability</span>
+					<% if (product.stock > 0) { %>
+					  <%= product.stock %>
+					<% } else { %>
+					  out of Stock
+					<% } %>
+				  </a>
+				</li>
+			  </ul>
+			  
+			  <p><%=product.description%></p>
+			  <!-- <div class="product_count">
+				<div class="product_count">
+					<input type="text" name="qty" id="sst_<%= product._id %>" maxlength="12" value="1" title="Quantity:" class="input-text qty">
+					<button onclick="increaseQuantity('<%= product._id %>', '<%= product.stock %>');" class="increase items-count" type="button"><i class="lnr lnr-chevron-up"></i></button>
+					<button onclick="decreaseQuantity('<%= product._id %>');" class="reduced items-count" type="button"><i class="lnr lnr-chevron-down"></i></button>
+				</div> -->
+				
+		</div>
+			  <div class="card_area d-flex align-items-center">
+			<%if(product.stock > 0){%>
+				<a class="btn btn-primary mr-2" onclick="addToCart('<%=product._id%>')">Add to Cart</a>
+				<%
+			}else{%>
+				<a class="btn btn-danger mr-2"> out of Stock!!</a>
+			<%}%>
+				<a class="" href="" onclick="addtoWish('<%=product._id%>')"><i class="lnr lnr lnr-heart"></i></a>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	</div>
+	
+	
+
+
+	
+	
+	
+	<%- include('../user/layouts/footer.ejs') %>
+    
+<script>
+	addToCart = async (product_Id)=>{   
+	 try {
+
+	   event.preventDefault();
+	//    let product_quantity = document.getElementById('sst_'+ product_Id).value
+	let product_quantity =1
+	const quantityData = await axios.post('/cart',{product_quantity,product_Id})
+
+	 if (quantityData.data.count) {
+         console.log('Added To Cart');
+          Toastify({
+          text: 'Added to cart',
+          duration: 1000,
+          newWindow: false,
+          close: false,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: false,
+          style: {
+            background: "#384aeb",
+          }
+        }).showToast();
+        }else if(quantityData.data.limit){
+			console.log('limit');
+          Toastify({
+          text: "Limit Exceeded",
+          duration: 1000,
+          newWindow: false,
+          close: false,
+          gravity: "top",
+          position: "right",
+          stopOnFocus: false,
+          style: {
+            background: "#384aeb",
+          }
+        }).showToast();
+        }
+		 else{
+			
+			window.location = '/login'
+		}
+  
+	   
+	  
+	     
+	   console.log(quantityData);
+	 } catch (error) {
+	   console.log(error.message);
+	 }
+	 }
+
+	 function addtoWish(productId) {
+		event.preventDefault()
+   
+    $.ajax({
+        url: '/addToWish',
+        method: 'post',
+        data: {
+            proId: productId
+        },
+        success: (response) => {
+            if (response.success === true) { // Corrected from Response.success to response.success
+                Swal.fire({
+                    title: 'Success!',
+                    text: 'applied',
+                    icon: 'success',
+                    timer: 1500
+                });
+                $('#reloadDiv').load('/detail #reloadDiv');
+            }
+			else if(response.NoUser===true){
+              window.location = '/login'
+            }  else {
+                Swal.fire({
+                    title: 'oops..',
+                    text: response.message,
+                    icon: 'error',
+                    timer: 1500
+                });
+            }
+        },
+        error: (err) => {
+            console.log(err);
+            Swal.fire({
+                title: 'Error',
+                text: 'Something went wrong',
+                icon: 'error',
+                timer: 1500
+            });
+        }
+    });
+}
+
+		
+
+	
+   </script>
+
+

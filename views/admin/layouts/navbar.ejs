@@ -1,0 +1,143 @@
+
+<div class="screen-overlay"></div>
+<aside class="navbar-aside" id="offcanvas_aside">
+    <div class="aside-top">
+        <a href="/admin/dashbord" class="brand-wrap">
+            <img src="/admin_assets/imgs/brands/feeton-logo.png" class="logo" alt="feeton dashboard" />
+        </a>
+        <div>
+            <button class="btn btn-icon btn-aside-minimize"><i class="text-muted material-icons md-menu_open"></i></button>
+        </div>
+    </div>
+    <nav>
+        <ul class="menu-aside">
+            <li class="menu-item">
+                <a class="menu-link" href="/admin/dashbord">
+                    <i class="icon material-icons md-home"></i>
+                    <span class="text">Dashboard</span>
+                </a>
+            </li>
+            <li class="menu-item has-submenu">
+                <a href="/admin/product" class="menu-link">
+                    <i class="icon material-icons md-shopping_bag"></i>
+                    <span class="text">Products</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/product">Product List</a>
+                    <a href="/admin/productAdd">Product Add</a>
+
+                </div>
+            </li>
+            <li class="menu-item ">
+                <a   class="menu-link" href="/admin/Category">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Categories</span>
+                </a>
+              
+            </li>
+            <li class="menu-item ">
+                <a   class="menu-link" href="/admin/order">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">Orders</span>
+                </a>
+              
+            </li>
+           
+            
+            <li class="menu-item has-submenu">
+                <a href="/admin/coupon" class="menu-link" >
+                    <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">coupon</span>
+                </a>
+                <div class="submenu">
+                    <a href="/admin/coupon">coupon</a>
+                    <a href="/admin/addCoupon">AddCoupon</a>
+                </div>
+            </li>
+            
+
+            <li class="menu-item ">
+                <a   class="menu-link" href="/admin/user">
+                    <i class="icon material-icons md-add_box"></i>
+                    <span class="text">User</span>
+                </a>
+              
+            </li>
+            <li class="menu-item ">
+                <a class="menu-link" href="/admin/sales-report">
+                    <i class="icon material-icons md-store"></i>
+                    <span class="text">sales</span>
+                </a>
+            </li>
+            <li class="menu-item has-submenu">
+                <a href="/admin/bannerList"  class="menu-link">
+                    <i class="icon material-icons md-shopping_cart"></i>
+                    <span class="text">Banner</span>
+                </a>
+                <div  class="submenu">
+                    <a href="/admin/bannerList">bannerList</a>
+                    <a href="/admin/addBanner">addBanner</a>
+             
+                </div>
+            </li>
+            
+            
+        </ul>
+        <hr />
+        
+        <br />
+        <br />
+    </nav>
+</aside>
+<main class="main-wrap">
+    <header class="main-header navbar">
+        <div class="col-search">
+           
+        </div>
+        <div class="col-nav">
+          
+            <ul class="nav">
+                <li class="nav-item">
+                    <a class="nav-link btn-icon" href="#">
+                        <i class="material-icons md-notifications animation-shake"></i>
+                        <span class="badge rounded-pill">3</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link btn-icon darkmode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="requestfullscreen nav-link btn-icon"><i class="material-icons md-cast"></i></a>
+                </li>
+                <li class="dropdown nav-item">
+                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false"> <img class="img-xs rounded-circle" src="/admin_assets/imgs/people/avatar-2.png" alt="User" /></a>
+                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                        <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                        <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                        <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                        <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                        <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="#"><i class="material-icons md-exit_to_app"></i>Logout</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+
+    <script>
+// Get the active page's path from the URL
+const activePage = window.location.pathname;
+console.log(activePage);
+
+// Find all the navigation links (assuming they are in <nav> elements)
+const navLinks = document.querySelectorAll("nav .menu-link").forEach(link => {
+  // Check if the link's href attribute includes the active page's path
+  if (link.href.includes(`${activePage}`)) {
+    // Add the 'active' class to the link
+    link.classList.add("bg-success");
+    console.log(link);
+  }
+});
+
+    </script>
