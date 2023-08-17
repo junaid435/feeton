@@ -348,11 +348,22 @@ const loadDashbord = async (req, res,next) => {
 
 
 
-
-
-
-    const paymentRazor = parseInt(paymentRazor1[0].total)
-    const paymentCod = parseInt(paymentCod1[0].total)
+let paymentRazor;
+let paymentCod;
+if(paymentRazor1=== undefined){
+   paymentRazor=0
+}else{
+   paymentRazor = parseInt(paymentRazor1[0].total)
+}
+     
+if(paymentCod1=== undefined){
+   paymentCod=0
+}else{
+  paymentCod = parseInt(paymentCod1[0].total)
+}
+     
+  
+    
 
     const startOfWeek = new Date(currentDate);
     startOfWeek.setDate(currentDate.getDate() - currentDate.getDay());

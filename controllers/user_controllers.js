@@ -445,7 +445,7 @@ const invoiceDownload = async (req, res,next) => {
         );
         res.send(pdfBytes);
     } catch (error) {
-        next(err)
+        next(error)
     }
 }
 
