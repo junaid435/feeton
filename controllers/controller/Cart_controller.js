@@ -160,7 +160,7 @@ const changes = async (req, res,next) => {
                 res.json({ success: false, message: `The maximum quantity available for this product is ${product.stock} . Please adjust your quantity.` })
             }
         } else if (count == -1) {
-            if (cartProduct.quantity >= 2) {
+            if (cartProduct.quantity >1) {
               await Cart.findOneAndUpdate(
                     { userId: req.session.userid, 'items.product_Id': productId }, {
                     $inc: {
