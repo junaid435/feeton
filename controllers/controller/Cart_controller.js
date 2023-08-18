@@ -73,7 +73,7 @@ const AddCart = async (req, res,next) => {
                 const cartProduct = cartdata.items.find(
                     (product) => product.product_Id.toString() === product_Id
                 );
-                if (cartProduct.quantity <= productData.stock) {
+                if (cartProduct.quantity < productData.stock) {
                     await Cart.findOneAndUpdate({
                         userId: userid,
                         'items.product_Id': new mongoose.Types.ObjectId(product_Id)
@@ -143,8 +143,8 @@ const changes = async (req, res,next) => {
         );
 
         if (count == 1) {
-            if (cartProduct.quantity <= product.stock) {
-                const value= await Cart.findOneAndUpdate(
+            if (cartProduct.quantity < product.stock) {
+                 await Cart.findOneAndUpdate(
                     { userId: req.session.userid, 'items.product_Id': productId }, {
                     $inc: {
                         'items.$.quantity': 1,
@@ -153,14 +153,15 @@ const changes = async (req, res,next) => {
 
                     }
                 })
-               console.log(value);
+                const value=await Cart.findOne({userId:req.session.userid})
+            console.log(value);
                 res.json({ success:true,value});
             } else {
                 res.json({ success: false, message: `The maximum quantity available for this product is ${product.stock} . Please adjust your quantity.` })
             }
         } else if (count == -1) {
-            if (cartProduct.quantity >= 1) {
-                const value= await Cart.findOneAndUpdate(
+            if (cartProduct.quantity >= 2) {
+              await Cart.findOneAndUpdate(
                     { userId: req.session.userid, 'items.product_Id': productId }, {
                     $inc: {
 
@@ -169,8 +170,8 @@ const changes = async (req, res,next) => {
                         grandTotal: -product.price
                     }
                 })
-                console.log('-1');
-                console.log(value);
+                 const value=await Cart.findOne({userId:req.session.userid})
+               
                 res.json({ success: true,value})
 
             } else {
@@ -191,13 +192,14 @@ const CartRemove = async (req, res,next) => {
         const userid = req.session.userid
         const price = req.query.price
 
+        console.log(price);
       await Cart.findOneAndUpdate(
-            { userId: userid, 'items.product_Id': id },
+            { userId: userid},
             { $inc: { grandTotal: -price } }
         );
 
         const ab=await Cart.findOneAndUpdate({ userId: userid }, { $pull: { 'items': { product_Id: id } } })
-         console.log(ab.items);
+       
         if(ab.items.length==1){
             await Cart.findOneAndDelete({userId:userid})
         }

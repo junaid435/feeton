@@ -47,7 +47,7 @@
     <!--================Cart Area =================-->
 
     <section class="cart_area">
-        <div id="reloadDiv" class="container">
+        <div  class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
 
@@ -63,7 +63,7 @@
                         </thead>
                         <tbody>
 
-                            <% products.items.forEach((items)=>{ %>
+                            <% products.items.forEach((items,i)=>{ %>
                                 <tr>
                                     <td>
                                         <div class="media">
@@ -81,22 +81,22 @@
                                     <td class="quantity__item">
                                         <div  class="quantity">
                                             <div class="pro-qty-2">
-                                                <%if(items.quantity>1){%>
+                                               
                                                     <button class="qty-btn qty-btn-minus" type="button"
                                                         onclick="increaseQuantity('<%= items.product_Id._id %>', -1)">-</button>
-                                                    <%}%>
-                                                        <input type="text" value="<%= items.quantity %>" readonly>
-                                                        <%if(items.quantity<items.product_Id.stock){%>
+                                                   
+                                                        <input id="quantity<%=i%>"  type="text" value="<%= items.quantity %>" readonly>
+                                                     
                                                             <button type="button" class="qty-btn qty-btn-plus"
                                                                 onclick="increaseQuantity('<%= items.product_Id._id %>', 1)">+</button>
-                                                            <% }%>
+                                                            
                                             </div>
                                         </div>
                                     </td>
 
                                     <td>
                                         <div>
-                                        <h5>
+                                        <h5 id="total<%=i%>">
                                             <%= items.total %>
                                         </h5>
                                         </div>
@@ -118,7 +118,7 @@
                                         </td>
                                         <td>
                                             <div >
-                                                <h5>
+                                                <h5 id="grandTotal">
                                                     <%= products.grandTotal %>
                                                 </h5>
                                             </div>
@@ -174,7 +174,18 @@
                     },
                     success: (response) => {
                         if (response.success === true) {
-                            $('#reloadDiv').load('/cart #reloadDiv')
+                           response.value.items.forEach((items,index) => {
+                            const quantity =document.getElementById(`quantity${index}`)
+                            const total=document.getElementById(`total${index}`)
+                            document.getElementById('grandTotal').innerHTML= response.value.grandTotal
+                            if(quantity){
+                             
+                                quantity.value=items.quantity
+                            }
+                            if(total){
+                                total.innerHTML=items.total
+                            }
+                           });
                          
                         } else {
                             Swal.fire({
