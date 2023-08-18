@@ -57,25 +57,25 @@
 		   const password=document.getElementById('Password')
 		   const Email_error=document.getElementById('Email_error')
 		   const Password_error=document.getElementById('Password_error')
+		   if(email.value.trim()==""){
+			   email.setCustomValidity("please enter the email")
+			   Email_error.innerHTML ="please enter  a valid email"
+			   
+		   }
+		   else{
+			   Email_error.innerHTML =""
+	  
+		   }
 
 		   email.addEventListener("input",()=>{
 			if(!email.value.match((/^[A-Za-z\._\-0-9]*[@][A-Za-z]*[\.][a-z]{2,4}$/))){
 				name.setCustomValidity("please enter the name")
 			Email_error.innerHTML ="please enter  a valid email"
-			return false
+		
 		}
 		Email_error.innerHTML =""
-		return true
+	
         
-            if(email.value.trim()==""){
-				email.setCustomValidity("please enter the email")
-				Email_error.innerHTML ="please enter  a valid email"
-				return false
-            }
-			else{
-				Email_error.innerHTML =""
-		return true
-			}
 		
 
 

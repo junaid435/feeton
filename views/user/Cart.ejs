@@ -47,7 +47,7 @@
     <!--================Cart Area =================-->
 
     <section class="cart_area">
-        <div class="container">
+        <div id="reloadDiv" class="container">
             <div class="cart_inner">
                 <div class="table-responsive">
 
@@ -79,7 +79,7 @@
                                     </td>
                                    
                                     <td class="quantity__item">
-                                        <div id="reloadDiv2" class="quantity">
+                                        <div  class="quantity">
                                             <div class="pro-qty-2">
                                                 <%if(items.quantity>1){%>
                                                     <button class="qty-btn qty-btn-minus" type="button"
@@ -95,7 +95,7 @@
                                     </td>
 
                                     <td>
-                                        <div id="reloadDiv1">
+                                        <div>
                                         <h5>
                                             <%= items.total %>
                                         </h5>
@@ -117,7 +117,7 @@
                                             <h5>Grand Total</h5>
                                         </td>
                                         <td>
-                                            <div id="reloadDiv">
+                                            <div >
                                                 <h5>
                                                     <%= products.grandTotal %>
                                                 </h5>
@@ -175,8 +175,7 @@
                     success: (response) => {
                         if (response.success === true) {
                             $('#reloadDiv').load('/cart #reloadDiv')
-                            $('#reloadDiv1').load('/cart #reloadDiv1')
-                            $('#reloadDiv2').load('/cart #reloadDiv2')
+                         
                         } else {
                             Swal.fire({
                                 title: "Error",

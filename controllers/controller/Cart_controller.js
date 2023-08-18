@@ -14,7 +14,7 @@ const loadcart = async (req, res,next) => {
         const products = await Cart.findOne({ userId: userid }).populate(
             "items.product_Id"
         );
-
+  
         res.render("Cart", { products });
     } catch (err) {
        next(err)
@@ -73,7 +73,7 @@ const AddCart = async (req, res,next) => {
                 const cartProduct = cartdata.items.find(
                     (product) => product.product_Id.toString() === product_Id
                 );
-                if (cartProduct.quantity < productData.stock) {
+                if (cartProduct.quantity <= productData.stock) {
                     await Cart.findOneAndUpdate({
                         userId: userid,
                         'items.product_Id': new mongoose.Types.ObjectId(product_Id)
@@ -143,8 +143,8 @@ const changes = async (req, res,next) => {
         );
 
         if (count == 1) {
-            if (cartProduct.quantity < product.stock) {
-                const mmm = await Cart.findOneAndUpdate(
+            if (cartProduct.quantity <= product.stock) {
+                const value= await Cart.findOneAndUpdate(
                     { userId: req.session.userid, 'items.product_Id': productId }, {
                     $inc: {
                         'items.$.quantity': 1,
@@ -153,14 +153,14 @@ const changes = async (req, res,next) => {
 
                     }
                 })
-
-                res.json({ success:true});
+               console.log(value);
+                res.json({ success:true,value});
             } else {
                 res.json({ success: false, message: `The maximum quantity available for this product is ${product.stock} . Please adjust your quantity.` })
             }
         } else if (count == -1) {
-            if (cartProduct.quantity > 1) {
-                await Cart.updateOne(
+            if (cartProduct.quantity >= 1) {
+                const value= await Cart.findOneAndUpdate(
                     { userId: req.session.userid, 'items.product_Id': productId }, {
                     $inc: {
 
@@ -169,8 +169,9 @@ const changes = async (req, res,next) => {
                         grandTotal: -product.price
                     }
                 })
-
-                res.json({ success: true })
+                console.log('-1');
+                console.log(value);
+                res.json({ success: true,value})
 
             } else {
                 res.json({ success: false, message: 'Cannot decrement the quantity anymore' })
@@ -190,12 +191,16 @@ const CartRemove = async (req, res,next) => {
         const userid = req.session.userid
         const price = req.query.price
 
-        const ab = await Cart.findOneAndUpdate(
+      await Cart.findOneAndUpdate(
             { userId: userid, 'items.product_Id': id },
             { $inc: { grandTotal: -price } }
         );
 
-        await Cart.findOneAndUpdate({ userId: userid }, { $pull: { 'items': { product_Id: id } } })
+        const ab=await Cart.findOneAndUpdate({ userId: userid }, { $pull: { 'items': { product_Id: id } } })
+         console.log(ab.items);
+        if(ab.items.length==1){
+            await Cart.findOneAndDelete({userId:userid})
+        }
         res.redirect("/Cart")
 
     } catch (err) {

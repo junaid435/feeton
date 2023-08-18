@@ -1576,53 +1576,7 @@
 
 /* Login form Area css
 ============================================================================================ */
-.login_box_area{
-	.login_box_img{
-		margin-right: -30px;
-		position: relative;
-		img{
-			width: 100%;
-		}
-		&:before{
-			position: absolute;
-			left: 0;
-			top: 0;
-			height: 100%;
-			width: 100%;
-			content: "";
-			background: #000;
-			opacity: .5;
-		}
-		.hover{
-			position: absolute;
-			top: 50%;
-			left: 0px;
-			text-align: center;
-			width: 100%;
-			transform: translateY(-50%);
-			h4{
-				font-size: 24px;
-				color: #fff;
-				margin-bottom: 15px;
-			}
-			p{
-				max-width: 380px;
-				margin: 0px auto 25px;
-				color: #fff;
-			}
-			.primary-btn{
-				border-radius: 0px;
-				line-height: 38px;
-				text-transform: uppercase;
-				&:hover{
-					&:before{
-						left: 260px;
-					}
-				}
-			}
-		}
-	}
-}
+
 .login_form_inner{
 	box-shadow: 0px 10px 30px 0px rgba(231, 6, 6, 0.07);
 	height: 100%;
