@@ -71,6 +71,10 @@ admin_route.post('/addCoupon',admin_controller.couponSet)
 admin_route.delete('/delete-coupon',admin_auth.adminisLogin,admin_controller.deleteCoupon)
 // To load  the cuopon show page
 admin_route.get('/coupon',admin_auth.adminisLogin,admin_controller.loadCoupon)
+//To load coppon edit page 
+admin_route.get('/coupon-edit',admin_auth.adminisLogin,admin_controller.loadCouponEdit)
+//To edit the coupon 
+admin_route.post('/editCoupon',admin_controller.editCoupon)
 //To load the sales report page 
 admin_route.get('/sales-report'  ,admin_auth.adminisLogin, admin_controller.salesReport)
 //To sort the sales report page 

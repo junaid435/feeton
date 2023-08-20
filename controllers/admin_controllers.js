@@ -688,6 +688,31 @@ const logout = async (req, res,next) => {
       next(err)
   }
 }
+
+const loadCouponEdit=async(req,res,next)=>{
+  try {
+    const id=req.query.id
+    const couponData=await Coupon.findById({_id:id})
+  res.render('couponEdit',{data:couponData})
+    
+  } catch (err) {
+    next(err)
+  }
+}
+
+const editCoupon=async(req,res,next)=>{
+  try {
+    const id=req.body.id
+const    code= req.body.code
+const discountPercentage= req.body.discountPercentage
+const startDate= req.body.startDate
+const  expireDate= req.body.expiryDate
+    await Coupon.findByIdAndUpdate({_id:id},{$set:{code:code,discountPercentage:discountPercentage,startDate:startDate,expireDate:expireDate}})
+    res.redirect('/admin/coupon')
+  } catch (err) {
+    next(err)
+  }
+}
 module.exports = {
   loadlogin,
   verifyAdmin,
@@ -713,6 +738,9 @@ module.exports = {
   sortSalesReport,
   userDetails,
   orderDetails,
-  logout
+  logout,
+  loadCouponEdit,
+editCoupon
+
 
 }
