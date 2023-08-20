@@ -155,7 +155,7 @@ const changes = async (req, res,next) => {
                 })
                 const value=await Cart.findOne({userId:req.session.userid})
             console.log(value);
-                res.json({ success:true,value});
+               await res.json({ success:true,value});
             } else {
                 res.json({ success: false, message: `The maximum quantity available for this product is ${product.stock} . Please adjust your quantity.` })
             }
@@ -172,7 +172,7 @@ const changes = async (req, res,next) => {
                 })
                  const value=await Cart.findOne({userId:req.session.userid})
                
-                res.json({ success: true,value})
+               await res.json({ success: true,value})
 
             } else {
                 res.json({ success: false, message: 'Cannot decrement the quantity anymore' })
