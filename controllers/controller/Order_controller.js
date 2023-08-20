@@ -135,7 +135,7 @@ instance.orders.create(options, function (err, order) {
             "products.product_Id"
           ).sort({date:-1})
     
-         res.render('orderPLaced',{order})
+         res.render('orderSuccessfully',{order})
          
      } catch (err) {
        next(err)
