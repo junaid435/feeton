@@ -194,7 +194,7 @@ const orderCancel=async(req,res,next)=>{
   
    const orderDAta=await Order.findOneAndUpdate({ _id: orderId,'products.product_Id':productId},{$set:{ "products.$.status":"cancelled"}})
    await Product.findByIdAndUpdate({_id:productId},{$inc:{stock:quantity}})
-   if(payment=="razorpay"){
+   if(payment=="razorpay"||payment=="wallet"){
 
  await User.findByIdAndUpdate({_id:userid},{$inc:{wallet:price},$push: {
   walletHistory: {
