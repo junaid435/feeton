@@ -5,13 +5,14 @@ function pingServer() {
     console.log('Pinging server to keep it alive...');
     
     const options = {
-        hostname: 'https://feeton.onrender.com',
+        hostname:'feeton.onrender.com',
         method: 'GET',
         timeout: 60000 
     };
 
     const req = https.request(options, (res) => {
-        console.log('...');
+        console.log(`Ping response: ${res.statusCode}`);
+
     });
 
     req.on('timeout', () => {
@@ -27,7 +28,7 @@ function pingServer() {
 }
 
 const  job = cron.schedule('*/14 * * * *', pingServer);
-
+job.start()
 module.exports=job
 
 
