@@ -5,7 +5,7 @@ function pingServer() {
     console.log('Pinging server to keep it alive...');
     
     const options = {
-        hostname:'feeton.onrender.com',
+        hostname:'feeton-4tqi.onrender.com',
         method: 'GET',
         timeout: 60000 
     };
